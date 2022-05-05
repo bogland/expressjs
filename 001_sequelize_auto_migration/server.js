@@ -24,7 +24,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-Object.keys(models).forEach((modelName) => {
-    db[modelName] = sequelize.import(models[modelName]);
-});

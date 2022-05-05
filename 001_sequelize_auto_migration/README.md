@@ -15,9 +15,11 @@ https://code-examples.net/ko/q/1a8bd99
 
 적용 실패... 모델 변경했음에도 "no change" 뜸  
 yarn add sequelize-auto-migrations-v2 사용
+yarn add mysql2
 
 ```
 cd app
+npx sequelize init
 node ../node_modules/sequelize-auto-migrations-v2/bin/makemigration --name "init2"
 node ..\node_modules\sequelize-auto-migrations-v2\bin\runmigration
 ```

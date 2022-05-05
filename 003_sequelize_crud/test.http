@@ -1,0 +1,22 @@
+###
+http://localhost:5000/member/1
+
+###
+POST http://localhost:5000/member/create
+content-type: application/json
+
+{
+    "name":"oh55"
+}
+
+###
+PUT http://localhost:5000/member/update
+content-type: application/json
+
+{
+    "id":1,
+    "name":"tony"
+}
+
+###
+DELETE  http://localhost:5000/member/delete/1
