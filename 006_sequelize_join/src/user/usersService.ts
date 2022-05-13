@@ -1,21 +1,22 @@
 // src/users/usersService.ts
-import User from "../models/users.js"
-import Board from "../models/board.js"
+import { User } from "./user";
+import Model from "../models"
+
 // A post request should not contain an id.
 export type UserCreationParams = Pick<User, "email" | "name" | "phoneNumbers">;
 
 export class UsersService {
-  public get(id: number, name?: string): any {
-    User.findAll({
+  public get(id: number, name?: string): User {
+    const res = Model["user"].findAll({
       include: [
          {
-           model: Board,
+           model: Model["board"],
            attributes: ['id', 'name']
          }
       ],
       where: {id},
  });
-
+console.log(res);
 
     return {
       id,
@@ -26,7 +27,7 @@ export class UsersService {
     };
   }
 
-  public create(userCreationParams: UserCreationParams): any {
+  public create(userCreationParams: UserCreationParams): User {
     return {
       id: Math.floor(Math.random() * 10000), // Random
       status: "Happy",
