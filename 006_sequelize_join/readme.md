@@ -1,3 +1,78 @@
+## 환경 구성
+
+- tsoa + sequelize + expressjs
+
+  > yarn add body-parser express multer swagger-ui-express tsoa  
+  > yarn add nodemon ts-node typescript concurrently @types/body-parser @types/express @types/multer @types/node @types/swagger-ui-express -D
+
+  > npx tsc --init
+
+```
+tsconfig.json 변경
+  "experimentalDecorators": true,
+  "outDir": "build",
+  "resolveJsonModule": true,
+```
+
+```
+package.json 추가
+  "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+  "build": "tsoa spec-and-routes && tsc",
+  "start": "node build/src/server.js"
+```
+
+### DB설정 추가
+
+> yarn add mysql2 sequelize
+> yarn add sequelize-cli sequelize-auto-migrations-v2 -D
+> cd src
+> npx sequelize init
+
+### src/models/model.js 파일 추가
+
+```
+module.exports = (sequelize, Sequelize) => {
+  const Board = sequelize.define("board", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: Sequelize.STRING,
+    },
+  });
+
+  return Board;
+};
+```
+
+### src/models/board.js 파일 추가
+
+```
+module.exports = (sequelize, Sequelize) => {
+  const Board = sequelize.define("board", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: Sequelize.STRING,
+    },
+  });
+
+  return Board;
+};
+```
+
+### DB 생성
+
+> node ../node_modules/sequelize-auto-migrations-v2/bin/makemigration --name "init"
+> npx sequelize db:migrate --env development
+
+## sequelize join 방법
+
 ```
 Figure.findAll({
      include: [
