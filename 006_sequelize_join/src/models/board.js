@@ -9,6 +9,12 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
   });
+  Board.associate = function (models) {
+    Board.belongsTo(models.user, {
+      foreignKey: "userId",
+      targetkey: "id",
+    });
+  };
 
   return Board;
 };

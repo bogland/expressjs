@@ -9,6 +9,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
   });
-
+  Member.associate = function (models) {
+    Member.hasMany(models.board, {
+      foreignKey: "userId",
+      sourcekey: "id",
+    });
+  };
   return Member;
 };

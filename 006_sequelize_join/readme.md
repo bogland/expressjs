@@ -71,18 +71,40 @@ module.exports = (sequelize, Sequelize) => {
 > node ../node_modules/sequelize-auto-migrations-v2/bin/makemigration --name "init"
 > npx sequelize db:migrate --env development
 
+## Join을 위한 Model 관계 정의
+
+https://c3epmos.tistory.com/59  
+참조 당하는 테이블에 hasMany, sourcekey로 정의  
+참조를 하는 테이블에 belongsTo, targetkey로 정의
+
+```
+  Member.associate = function (models) {
+    Member.hasMany(models.board, {
+      foreignKey: "userId",
+      sourcekey: "id",
+    });
+  };
+
+  Board.associate = function (models) {
+    Board.belongsTo(models.user, {
+      foreignKey: "userId",
+      targetkey: "id",
+    });
+  };
+```
+
 ## sequelize join 방법
 
 ```
-Figure.findAll({
-     include: [
+  const res = await Model.user.findAll({
+    include: [
         {
-          model: Drawing,
-          attributes: ['title', 'description']
+          model: Model.board,
+          attributes: ['userId']
         }
-     ],
-     where: {figure 테이블에서 찾고자 원하는 조건을 넣어줬다},
-});
+    ],
+    where: {id},
+  });
 
 ```
 

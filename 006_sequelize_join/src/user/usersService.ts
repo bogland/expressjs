@@ -6,24 +6,19 @@ import Model from "../models"
 export type UserCreationParams = Pick<User, "email" | "name" | "phoneNumbers">;
 
 export class UsersService {
-  public get(id: number, name?: string): User {
-    const res = Model["user"].findAll({
+  public async get(id: number, name?: string): Promise<User> {
+    const res = await Model.user.findAll({
       include: [
          {
-           model: Model["board"],
-           attributes: ['id', 'name']
+           model: Model.board,
+           attributes: ['userId']
          }
       ],
       where: {id},
  });
-console.log(res);
-
+ console.log("res :",res);
     return {
-      id,
-      email: "jane@doe.com",
-      name: name ?? "Jane Doe",
-      status: "Happy",
-      phoneNumbers: [],
+      ...res
     };
   }
 
