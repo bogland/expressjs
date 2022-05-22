@@ -3,11 +3,6 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 
-const headers = {
-    'Content-Type': 'text/event-stream',
-    'Connection': 'keep-alive',
-    'Cache-Control': 'no-cache',
-}
 let clients = [];
 
 app.get('/sse', (req, res) => {
@@ -18,18 +13,20 @@ app.get('/sse', (req, res) => {
     };
     res.writeHead(200, headers);
     const data = "hello";
-    
+
     res.write(`${JSON.stringify(data)}\n\n`);
 
     const clientId = Date.now();
     const newClient = {
-      id: clientId,
-      res
+        id: clientId,
+        res
     };
     clients.push(newClient);
 
-    clients.forEach(client =>
-        client.res.write(`data: ${JSON.stringify(data)}\n\n`)
+    clients.forEach(client => {
+        if (client.id != clientId)
+            client.res.write(`data: ${JSON.stringify("알림")}\n\n`)
+    }
     );
 
     req.on('close', () => {
